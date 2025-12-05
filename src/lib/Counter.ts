@@ -1,5 +1,5 @@
 class Counter {
-    private static count = 0;
+    private static count = 1;
 
     static next(): number {
         return this.count++;

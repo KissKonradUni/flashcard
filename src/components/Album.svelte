@@ -5,17 +5,26 @@
     let index = Counter.next();
 </script>
 
-<button class="card-album" onclick={() => Navigate(`/learn?album=${index}`)}>
+<div class="card-album">
     <div class="card-album-info">
         <h2 class="card-album-title">Title</h2>
         <p class="card-album-description">Description</p>
+        <div class="flex"></div>
+        <div class="button-row">
+            <button class="learn" onclick={() => Navigate(`/learn?album=${index}`)}>
+                Learn
+            </button>
+            <button class="edit" onclick={() => Navigate(`/edit?album=${index}`)}>
+                Edit
+            </button>
+        </div>
     </div>
     <img src="https://picsum.photos/seed/{index}/200/200" alt="Album Cover" class="card-album-cover" />
-</button>
+</div>
 
 <style>
 
-button.card-album {
+div.card-album {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -27,6 +36,8 @@ button.card-album {
     border-radius: 8px;
     background-color: var(--secondary-color);
 
+    color: var(--text-color);
+    text-decoration: none;
     text-align: left;
     scale: 1.0;
 
@@ -34,15 +45,11 @@ button.card-album {
     box-shadow: 0.25rem 0.25rem 0.1rem rgba(0, 0, 0, 0.25);
 
     transition: box-shadow 0.2s ease, scale 0.2s ease;
+
+    pointer-events: none;
 }
 
-button.card-album:hover {
-    scale: 1.02;
-
-    box-shadow: 0.5rem 0.5rem 0.25rem rgba(0, 0, 0, 0.35);
-}
-
-button.card-album::after {
+div.card-album::after {
     content: "";
 
     display: block;
@@ -57,19 +64,12 @@ button.card-album::after {
     box-shadow: inset 0 0 0.5rem 0.1rem rgba(0, 0, 0, 0.33);
 }
 
-button.card-album:active {
-    scale: 0.98;
-
-    box-shadow: 0.1rem 0.1rem 0.05rem rgba(0, 0, 0, 0.2);
-}
-
-button.card-album:focus {
-    outline: 2px solid var(--accent-color);
-    outline-offset: 4px;
-}
-
 div.card-album-info {
+    display: flex;
+    flex-direction: column;
+    
     flex: 1;
+    height: 100%;
     padding: 1rem;
 }
 
@@ -93,6 +93,10 @@ img.card-album-cover {
     object-fit: cover;
 
     user-select: none;
+}
+
+div.flex {
+    flex: 1;
 }
 
 </style>

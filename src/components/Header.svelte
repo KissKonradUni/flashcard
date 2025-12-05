@@ -45,25 +45,7 @@
         flex-direction: row;
         
         gap: 0.5rem;
+        margin: 0.5rem;
         margin-right: 0.5rem;
-    }
-
-    button {
-        margin: 0.5rem 0;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-
-        border: none;
-        border-radius: 4px;
-        background-color: var(--text-color);
-        color: var(--main-color);
-
-        box-shadow: 0.1rem 0.1rem 0.25rem rgba(0, 0, 0, 0.33);
-
-        transition: background-color 0.2s ease;
-    }
-
-    button:hover {
-        background-color: var(--accent-color);
     }
 </style>

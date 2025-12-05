@@ -9,7 +9,7 @@
 
         <div class="left-align">
             <br>[Page-Chan] <b><i>*looks around confusedly*</i></b>
-            <br>[Page-Chan] <b><i>*Where am I...?*</i></b>
+            <br>[Page-Chan] Where am I...?
             <br>[Page-Chan] <b><i>*sighs*</i></b>
             <br>[Page-Chan] I guess this page doesn't exist...
 

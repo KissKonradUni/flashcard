@@ -1,7 +1,7 @@
 :root {
     --main-color: #222;
-    --secondary-color: #333;
-    --ternary-color: #444;
+    --secondary-color: #444;
+    --ternary-color: #666;
 
     --accent-color: #66ff00;
 
@@ -41,4 +41,36 @@ button, input {
     font: inherit;
     color: inherit;
     cursor: pointer;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+
+    border: none;
+    border-radius: 0.25em;
+    background-color: var(--text-color);
+    color: var(--main-color);
+
+    box-shadow: 0.1rem 0.1rem 0.25rem rgba(0, 0, 0, 0.33);
+
+    transition: background-color 0.2s ease, scale 0.2s ease;
+
+    pointer-events: auto;
+}
+
+button:hover {
+    scale: 1.05;
+    background-color: var(--accent-color);
+}
+
+button:active {
+    scale: 0.97;
+    background-color: var(--ternary-color);
+    color: var(--text-color);
+}
+
+button:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 0.1rem;
 }
