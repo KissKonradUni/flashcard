@@ -6,7 +6,7 @@ export default defineConfig(({ command }) => {
     const isLocal = command === "serve";
     return { 
         plugins: [svelte()],
-        base: isLocal ? "/" : "/flashcards/",
+        base: isLocal ? "/" : "/flashcard/",
         define: {
             __IS_LOCAL__: JSON.stringify(isLocal),
         },

@@ -5,7 +5,7 @@ import LearnRoute from "./routes/Learn.svelte";
 declare const __IS_LOCAL__: boolean;
 console.log(`Running in ${__IS_LOCAL__ ? "local" : "production"} mode.`);
 export const IS_LOCAL = __IS_LOCAL__;
-export const BASE_URL = (typeof __IS_LOCAL__ !== "undefined" && __IS_LOCAL__) ? "" : "/flashcards";
+export const BASE_URL = (typeof __IS_LOCAL__ !== "undefined" && __IS_LOCAL__) ? "" : "/flashcard";
 
 const Callbacks: Array<(route: IRoute) => void> = [];
 
