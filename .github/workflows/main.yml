@@ -20,6 +20,10 @@ jobs:
         with:
           deno-version: "2.4.x"
 
+      - name: Download dependencies
+        run: deno install
+        working-directory: ./
+
       - name: Build site
         run: deno run build
         working-directory: ./
