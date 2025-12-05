@@ -1,0 +1,44 @@
+:root {
+    --main-color: #222;
+    --secondary-color: #333;
+    --ternary-color: #444;
+
+    --accent-color: #66ff00;
+
+    --text-color: #eee;
+
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: inherit;
+
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    background-color: var(--main-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+
+    min-height: 100vh;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+button, input {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
