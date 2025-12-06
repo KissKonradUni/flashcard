@@ -44,6 +44,7 @@ class Album {
     public serialize(): string {
         const data = {
             title: this.title,
+            description: this.description,
             cards: this.cards.map(card => ({ front: card.front, back: card.back })),
         };
         return JSON.stringify(data);
