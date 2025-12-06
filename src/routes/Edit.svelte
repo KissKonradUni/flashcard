@@ -1,18 +1,21 @@
 <script lang="ts">
 	import CardEdit from "../components/CardEdit.svelte";
-	import { AlbumRegistry, ExampleAlbum } from "../lib/Albums";
-	import { GetCurrentParams } from "../Router";
+	import { Album, AlbumRegistry, ExampleAlbum } from "../lib/Albums";
+	import { GetCurrentParams, Navigate } from "../Router";
 
     const params = GetCurrentParams();
-    const albumIndex = Number(params.album) || -1;
+    const albumIndex = parseInt(params.album);
+    console.log("Editing album at index", albumIndex);
 
     const source = AlbumRegistry.getAlbum(albumIndex) || ExampleAlbum;
 
-    // Create local copy of the album to edit
-    const album = $state({...source});
+    const editedAlbum = $state({
+        ...source,
+        cards: source.cards
+    });
 
     function addCard() {
-        album.cards.push({ front: "", back: "" });
+        editedAlbum.cards.push({ front: "", back: "" });
         setTimeout(() => {
             document.body.scroll({
                 top: document.body.scrollHeight,
@@ -22,21 +25,40 @@
     }
 
     function onDelete(index: number) {
-        album.cards.splice(index, 1);
-        console.log(index, album.cards);
+        editedAlbum.cards.splice(index, 1);
+        console.log(editedAlbum.cards);
+    }
+
+    function onEdit(which: 'front' | 'back', index: number, value: string) {
+        editedAlbum.cards[index][which] = value;
+    }
+
+    function saveAlbum() {
+        if (albumIndex >= 0) {
+            AlbumRegistry.updateAlbum(albumIndex, editedAlbum);
+            console.log("Updated album at index", albumIndex);
+        } else {
+            AlbumRegistry.addAlbum(new Album(editedAlbum.title, editedAlbum.description, editedAlbum.cards));
+            console.log("Added new album");
+        }
+
+        Navigate('/');
     }
 </script>
 
 <div class="edit">
-    <input type="text" class="album-title" value={album.title} placeholder="Album Title" />
-    <textarea class="album-description" value={album.description} placeholder="Album Description"></textarea>
+    <input type="text" class="album-title" bind:value={editedAlbum.title} placeholder="Album Title" />
+    <textarea class="album-description" bind:value={editedAlbum.description} placeholder="Album Description"></textarea>
     <div class="cards">
-        {#each album.cards as card, index}
-            <CardEdit {card} {index} onDelete={() => onDelete(index)}/>
+        {#each editedAlbum.cards as card, index}
+            <CardEdit {card} {index} onDelete={() => onDelete(index)} onEdit={onEdit}/>
         {/each}
     </div>
     <button onclick={() => addCard()} class="add-button">
         <span>+</span>
+    </button>
+    <button onclick={() => saveAlbum()} class="save-button">
+        💾
     </button>
 </div>
 
@@ -86,5 +108,21 @@
 
     button.add-button span {
         translate: 0 -0.15rem;
+    }
+
+    button.save-button {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        top: 4rem;
+        right: 1rem;
+
+        width: 3rem;
+        height: 3rem;
+        
+        font-size: 1.5rem;
+        border-radius: 50%;
     }
 </style>

@@ -1,20 +1,21 @@
 <script lang="ts">
-    let props = $props();
-
-    let card: { front: string; back: string } = props.card || { front: '', back: '' };
-    let index: number = props.index || 0;
-    let deleteFunction: (() => void) = props.onDelete || (() => {});
+    const { card, index, onEdit, onDelete } = $props<{
+        card: { front: string; back: string };
+        index: number;
+        onEdit(which: 'front' | 'back', index: number, value: string): void;
+        onDelete: () => void;
+    }>();
 </script>
 
 <div class="card-edit">
     <div class="card-info">
         {index + 1}
-        <button class="delete" onclick={() => deleteFunction()}>
+        <button class="delete" onclick={() => onDelete()}>
             🗑️
         </button>
     </div>
-    <textarea class="card-front" value={card.front} placeholder="Front Side"></textarea>
-    <textarea class="card-back" value={card.back} placeholder="Back Side"></textarea>
+    <textarea class="card-front" bind:value={card.front} placeholder="Front Side" oninput={(e) => onEdit('front', index, (e.target as HTMLTextAreaElement).value)}></textarea>
+    <textarea class="card-back" bind:value={card.back} placeholder="Back Side" oninput={(e) => onEdit('back', index, (e.target as HTMLTextAreaElement).value)}></textarea>
 </div>
 
 <style>

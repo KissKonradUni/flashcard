@@ -80,6 +80,15 @@ class AlbumCollection {
         }
         return this.albums[index];
     }
+
+    public updateAlbum(albumIndex: number, editedAlbum: { cards: Card[]; title: string; description: string; }) {
+        if (albumIndex < 0 || albumIndex >= this.albums.length) {
+            return;
+        }
+        this.albums[albumIndex].cards = editedAlbum.cards;
+        this.albums[albumIndex].title = editedAlbum.title;
+        this.albums[albumIndex].description = editedAlbum.description;
+    }
 }
 
 const AlbumRegistry = new AlbumCollection();
