@@ -2,6 +2,8 @@
 	import { AlbumRegistry, ExampleAlbum } from "../lib/Albums";
 	import { GetCurrentParams } from "../Router";
 	import { loadSettings, type Settings } from "../lib/Settings";
+    import 'mathjax/es5/tex-mml-chtml.js';
+	import { onMount } from "svelte";
 
     const settings = $state<Settings>(loadSettings());
 
@@ -24,6 +26,14 @@
 
     function flip() {
         card.classList.toggle('flipped');    
+    }
+
+    function renderMath() {
+        // Math Jax rendering
+        if (settings.enableMathJax) {
+            // @ts-ignore
+            MathJax.typesetPromise([childElement, backElement]);
+        }
     }
 
     function go(amount: number) {
@@ -49,8 +59,14 @@
             childElement.innerHTML = album!.getNextCard(cardIndex).front;
             const backElement = card.querySelector('.back-side') as HTMLDivElement;
             backElement.innerHTML = album!.getNextCard(cardIndex).back;
+
+            renderMath();
         }, 300);
     }
+
+    onMount(() => {
+        renderMath();
+    });
 </script>
 
 <div class="learn">

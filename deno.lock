@@ -4,6 +4,7 @@
     "npm:@sveltejs/vite-plugin-svelte@^6.2.1": "6.2.1_svelte@5.45.5__acorn@8.15.0_vite@7.2.6__@types+node@24.10.1__picomatch@4.0.3_@types+node@24.10.1",
     "npm:@tsconfig/svelte@^5.0.6": "5.0.6",
     "npm:@types/node@^24.10.1": "24.10.1",
+    "npm:mathjax@4": "4.0.0",
     "npm:rolldown-vite@7.2.5": "7.2.5_@types+node@24.10.1_picomatch@4.0.3",
     "npm:svelte-check@^4.3.4": "4.3.4_svelte@5.45.5__acorn@8.15.0_typescript@5.9.3",
     "npm:svelte@^5.43.8": "5.45.5_acorn@8.15.0",
@@ -185,6 +186,9 @@
         "@jridgewell/resolve-uri",
         "@jridgewell/sourcemap-codec"
       ]
+    },
+    "@mathjax/mathjax-newcm-font@4.0.0": {
+      "integrity": "sha512-kpsJgIF4FpWiwIkFgOPmWwy5GXfL25spmJJNg27HQxPddmEL8Blx0jn2BuU/nlwjM/9SnYpEfDrWiAMgLPlB8Q=="
     },
     "@napi-rs/wasm-runtime@1.1.0": {
       "integrity": "sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA==",
@@ -609,6 +613,12 @@
         "@jridgewell/sourcemap-codec"
       ]
     },
+    "mathjax@4.0.0": {
+      "integrity": "sha512-ThMPHiPl9ibZBInAmfoTCNq9MgCdH7ChIQ9YhKFc325noJ4DMzy9/Q14qdcuPzVJjEmC3kyXhwnERZWX3hbWzQ==",
+      "dependencies": [
+        "@mathjax/mathjax-newcm-font"
+      ]
+    },
     "mri@1.2.0": {
       "integrity": "sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA=="
     },
@@ -809,6 +819,7 @@
         "npm:@sveltejs/vite-plugin-svelte@^6.2.1",
         "npm:@tsconfig/svelte@^5.0.6",
         "npm:@types/node@^24.10.1",
+        "npm:mathjax@4",
         "npm:rolldown-vite@7.2.5",
         "npm:svelte-check@^4.3.4",
         "npm:svelte@^5.43.8",

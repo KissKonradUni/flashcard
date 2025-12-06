@@ -11,6 +11,11 @@
         <input type="checkbox" id="shuffle-cards" bind:checked={settings.shouldShuffle} 
             onchange={() => saveSettings(settings)} />
     </div>
+    <div class="setting-item">
+        <label for="enable-mathjax">Enable MathJax Rendering</label>
+        <input type="checkbox" id="enable-mathjax" bind:checked={settings.enableMathJax} 
+            onchange={() => saveSettings(settings)} />
+    </div>
 </div>
 
 <style>

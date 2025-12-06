@@ -1,5 +1,6 @@
 export interface Settings {
     shouldShuffle: boolean;
+    enableMathJax?: boolean;
 }
 
 function loadSettings(): Settings {
@@ -8,7 +9,8 @@ function loadSettings(): Settings {
         return JSON.parse(settingsString) as Settings;
     } else {
         return {
-            shouldShuffle: true
+            shouldShuffle: true,
+            enableMathJax: true
         };
     }
 }
