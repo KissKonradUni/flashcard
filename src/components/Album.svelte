@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Counter from '../lib/Counter';
+    import { AlbumRegistry } from '../lib/Albums';
 	import { Navigate } from '../Router';
 
     let props = $props();
@@ -8,6 +8,13 @@
         description: "This is a sample album description."
     };
     let index = props.index || 0;
+
+    function deleteAlbum(index: number) {
+        if (confirm(`Are you sure you want to delete the album "${album.title}"? This action cannot be undone.`)) {
+            AlbumRegistry.deleteAlbum(index);
+            window.location.reload();
+        }
+    }
 </script>
 
 <div class="card-album">
@@ -21,6 +28,9 @@
             </button>
             <button class="edit" onclick={() => Navigate(`/edit?album=${index}`)}>
                 Edit
+            </button>
+            <button class="delete red" onclick={() => deleteAlbum(index)}>
+                Delete
             </button>
         </div>
     </div>
@@ -102,6 +112,18 @@ img.card-album-cover {
 
 div.flex {
     flex: 1;
+}
+
+button.delete {
+    margin-left: 0.5rem;
+}
+
+button.red {
+    background-color: #ff8888;
+}
+
+button.red:hover {
+    background-color: #ff5555;
 }
 
 </style>

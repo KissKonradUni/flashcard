@@ -61,7 +61,7 @@ export const ExampleAlbum = new Album("Example Album", "An example album.", [
 ]);
 
 class AlbumCollection {
-    private albums: Album[];
+    public albums: Album[];
 
     constructor() {
         this.albums = [];

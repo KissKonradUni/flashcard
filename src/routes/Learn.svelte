@@ -10,6 +10,9 @@
 
     let cardIndex = $state(0);
     const album = AlbumRegistry.getAlbum(albumIndex) || ExampleAlbum;
+    if (album.cards.length === 0) {
+        album.cards = [{ front: "No cards in this album!", back: "Please add some cards in the Edit page." }];
+    }
     
     if (settings.shouldShuffle)
         album!.shuffle();

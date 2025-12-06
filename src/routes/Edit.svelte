@@ -47,6 +47,25 @@
 
         Navigate('/');
     }
+
+    function exportAlbum() {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(editedAlbum));
+        alert("Album JSON (Triple click to select):\n\n" + JSON.stringify(editedAlbum));
+    }
+
+    function importAlbum() {
+        let json = prompt("Paste album JSON here:");
+        if (json) {
+            try {
+                const imported = JSON.parse(json);
+                editedAlbum.title = imported.title || "Imported Album";
+                editedAlbum.description = imported.description || "";
+                editedAlbum.cards = imported.cards || [];
+            } catch (e) {
+                alert("Failed to import album: " + e);
+            }
+        }
+    }
 </script>
 
 <div class="edit">
@@ -57,14 +76,20 @@
             <CardEdit {card} {index} onDelete={() => onDelete(index)} onEdit={onEdit}/>
         {/each}
     </div>
-    <button onclick={() => addCard()} class="add-button">
+    <button onclick={() => addCard()} class="circle add-button">
         <span>+</span>
     </button>
-    <button onclick={() => saveAlbum()} class="save-button">
+    <button onclick={() => saveAlbum()} class="circle save-button">
         💾
     </button>
-    <button class="delete-button" onclick={() => deleteAlbum()}>
+    <button class="circle delete-button" onclick={() => deleteAlbum()}>
         🗑️
+    </button>
+    <button class="circle export-button" onclick={() => exportAlbum()}>
+        📤
+    </button>
+    <button class="circle import-button" onclick={() => importAlbum()}>
+        📥
     </button>
 </div>
 
@@ -96,20 +121,22 @@
         gap: 1rem;
     }
 
-    button.add-button {
+    button.circle {
         position: fixed;
         display: flex;
         align-items: center;
         justify-content: center;
-        
-        bottom: 1rem;
-        right: 1rem;
-
+    
         width: 3rem;
         height: 3rem;
         
-        font-size: 2rem;
+        font-size: 1.5rem;
         border-radius: 50%;
+    }
+
+    button.add-button {
+        bottom: 1rem;
+        right: 1rem;
     }
 
     button.add-button span {
@@ -117,34 +144,22 @@
     }
 
     button.save-button {
-        position: fixed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
         top: 4rem;
         right: 1rem;
-
-        width: 3rem;
-        height: 3rem;
-        
-        font-size: 1.5rem;
-        border-radius: 50%;
     }
 
     button.delete-button {
-        position: fixed;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
         top: 4rem;
         right: 5rem;
+    }
 
-        width: 3rem;
-        height: 3rem;
-        
-        font-size: 1.5rem;
-        border-radius: 50%;
+    button.export-button {
+        top: 8rem;
+        right: 1rem;
+    }
+
+    button.import-button {
+        top: 8rem;
+        right: 5rem;
     }
 </style>
