@@ -2,13 +2,18 @@
     import Counter from '../lib/Counter';
 	import { Navigate } from '../Router';
 
-    let index = Counter.next();
+    let props = $props();
+    let album = props.album || {
+        title: "Sample Album",
+        description: "This is a sample album description."
+    };
+    let index = props.index || 0;
 </script>
 
 <div class="card-album">
     <div class="card-album-info">
-        <h2 class="card-album-title">Title</h2>
-        <p class="card-album-description">Description</p>
+        <h2 class="card-album-title">{album.title}</h2>
+        <p class="card-album-description">{album.description}</p>
         <div class="flex"></div>
         <div class="button-row">
             <button class="learn" onclick={() => Navigate(`/learn?album=${index}`)}>

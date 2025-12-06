@@ -1,15 +1,12 @@
 <script lang="ts">
 	import Album from "../components/Album.svelte";
+    import { AlbumRegistry } from "../lib/Albums";
 </script>
 
 <div class="albums">
-    <Album />
-    <Album />
-    <Album />
-    <Album />
-    <Album />
-    <Album />
-    <Album />
+    {#each AlbumRegistry.getAllAlbums() as album, index}
+        <Album {album} {index} />
+    {/each}
 </div>
 
 <style>

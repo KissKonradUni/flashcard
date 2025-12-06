@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { on } from "svelte/events";
-	import { ExampleAlbum } from "../lib/Albums";
+	import { AlbumRegistry, ExampleAlbum } from "../lib/Albums";
 	import { GetCurrentParams } from "../Router";
-	import { onMount } from "svelte";
 
     const params = GetCurrentParams();
-    const albumIndex = params.album || 'none';
+    const albumIndex = Number(params.album) || -1;
 
     let cardIndex = 0;
-    const album = ExampleAlbum;
+    const album = AlbumRegistry.getAlbum(albumIndex) || ExampleAlbum;
     album.shuffle();
 
     function fillCard() {
@@ -22,110 +20,70 @@
     let animating = false;
     let isFront = true;
 
-    let prev: HTMLDivElement;
-    let active: HTMLDivElement;
-    let next: HTMLDivElement;
-    let nextHidden: HTMLDivElement;
+    let cardWarpper: HTMLDivElement;
+    let card: HTMLDivElement;
 
-    onMount(() => {
-        const cardInside = active.querySelector('.card-inside') as HTMLDivElement;
-        cardInside.innerHTML = fillCard();
-    })
+    function flip() {
+        card.classList.toggle('flipped');    
+    }
+
+    function go(amount: number) {
+        if (card.classList.contains('flipped')) {
+            flip();
+            setTimeout(() => go(amount), 300);
+            return;
+        }
+
+        if (animating) return;
+        animating = true;
+
+        cardWarpper.classList.add(amount > 0 ? 'rotate-left' : 'rotate-right');
+        card.classList.add(amount > 0 ? 'hide-left' : 'hide-right');
+        setTimeout(() => {
+            cardWarpper.classList.remove(amount > 0 ? 'rotate-left' : 'rotate-right');
+            card.classList.remove(amount > 0 ? 'hide-left' : 'hide-right');
+            animating = false;
+
+            cardIndex += amount;
+            isFront = true;
+
+            const childElement = card.querySelector('.front-side') as HTMLDivElement;
+            childElement.innerHTML = album.getNextCard(cardIndex).front;
+            const backElement = card.querySelector('.back-side') as HTMLDivElement;
+            backElement.innerHTML = album.getNextCard(cardIndex).back;
+        }, 300);
+    }
 </script>
 
-<div class="learn-page">
-    <div class="learn">
-        <div class="cards">
-            <div bind:this={prev} class="card prev-card">
-                <div class="card-inside">
-                </div>
+<div class="learn">
+    <div class="numbering">
+        Card {((cardIndex % album.cards.length) + album.cards.length) % album.cards.length + 1} / {album.cards.length}
+    </div>
+    <div class="card-wrapper" bind:this={cardWarpper}>
+        <div class="card" bind:this={card}>
+            <div class="front-side">
+                {album.getNextCard(cardIndex).front}
             </div>
-            <div bind:this={next} class="card next-card">
-                <div class="card-inside">
-                </div>
-            </div>
-            <div bind:this={nextHidden} class="card next-card hidden-right">
-                <div class="card-inside">
-                </div>
-            </div>
-            <div bind:this={active} class="card active-card active-card-left">
-                <div class="card-inside">
-                </div>
+            <div class="back-side">
+                {album.getNextCard(cardIndex).back}
             </div>
         </div>
-        <div class="button-row">
-            <button class="next" onclick={() => {
-                if (animating) return; // Prevent if already animating
-                animating = true;
-                prev.classList.add('hidden-left');
-                prev.classList.remove('prev-card');
-            
-                active.classList.add('prev-card');
-                active.classList.remove('active-card', 'active-card-left');
-            
-                next.classList.add('active-card-right', 'active-card');
-                next.classList.remove('next-card');
-            
-                nextHidden.classList.add('next-card');
-                nextHidden.classList.remove('hidden-right');
-                setTimeout(() => {
-                    const temp = prev;
-                    prev = active;
-                    active = next;
-                    next = nextHidden;
-                    nextHidden = temp;
-            
-                    nextHidden.classList.add('hidden-right', 'next-card');
-                    nextHidden.classList.remove('hidden-left');
-
-                    active.classList.add('active-card-left');
-                    active.classList.remove('active-card-right');
-
-                    animating = false;
-
-                    cardIndex++;
-                    isFront = true;
-
-                    const childElement = active.querySelector('.card-inside') as HTMLDivElement;
-                    childElement.innerHTML = album.getNextCard(cardIndex).front;
-                }, 100);
-            }}>
-                Next
-            </button>
-            <button class="flip" onclick={() => {
-                if (animating) return;
-                animating = true;
-
-                active.classList.add('rotate-card');
-                const childElement = active.querySelector('.card-inside') as HTMLDivElement;
-
-                setTimeout(() => {
-                    active.classList.add('disable-transition');
-                    active.classList.remove('rotate-card');
-                    setTimeout(() => {
-                        active.classList.remove('disable-transition');
-                    }, 1);
-
-                    animating = false;
-                }, 100);
-
-                setTimeout(() => {
-                    isFront = !isFront;
-                    if (isFront) {
-                        childElement.innerHTML = album.getNextCard(cardIndex).front;
-                    } else {
-                        childElement.innerHTML = album.getNextCard(cardIndex).back;
-                    }
-                }, 50);
-            }}>
-                Flip
-            </button>
-        </div>
+    </div>
+    <div class="button-row">
+        <button class="prev" onclick={() => go(-1)}>
+            &lt;
+        </button>
+        <button class="flip" onclick={flip}>
+            Flip
+        </button>
+        <button class="next" onclick={() => go(1)}>
+            &gt;
+        </button>
     </div>
 </div>
 
 <style>
-    .learn-page {
+    div.learn {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -134,120 +92,80 @@
         flex: 1;
         padding: 1rem;
         margin: 0;
+        gap: 2rem;
     }
 
-    .learn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        width: 100%;
-        max-width: 80ch;
-        height: 32em;
-        padding: 1rem;
-
-        border: none;
-        border-radius: 8px;
-        background-color: var(--secondary-color);
-
-        box-shadow: 0.25rem 0.25rem 0.1rem rgba(0, 0, 0, 0.25);
+    div.numbering {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: var(--text-color);
     }
 
-    .cards {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        width: 100%;
-        height: 100%;
-
-        perspective: 1000px;
-
-        filter: drop-shadow(0 0 1em black);
-    }
-
-    .card {
+    div.card-wrapper {
         --card-width: 24rem;
         width: var(--card-width);
         height: 16rem;
 
+        perspective: 512px;
+
+        transition: rotate 0.3s ease;
+    }
+
+    div.card {
+        position: relative;
+
+        width: 100%;
+        height: 100%;
+        --card-padding: 2rem;
+        padding: var(--card-padding);
+
         border: none;
-        border-radius: 8px;
-        background-color: var(--ternary-color);
+        border-radius: 0.5em;
+        background-color: var(--secondary-color);
 
-        transition: translate 0.2s ease, scale 0.2s ease, opacity 0.2s ease, left 0.2s ease, right 0.2s ease, rotate 0.2s ease;
-    }
+        box-shadow: 0 0 0.25rem 0.25rem rgba(0, 0, 0, 0.25);
 
-    .prev-card {
-        position: absolute;
-        left: 3rem;
-        scale: 0.9;
-        opacity: 0.5;
-        rotate: z -5deg;
-    }
-
-    .active-card {
-        position: absolute;
-        
         transform-style: preserve-3d;
-        z-index: 1;
+        transition: rotate 0.3s ease;
     }
 
-    :global(.active-card-left) {
-        left: calc(50% - var(--card-width) / 2);
-    }
-
-    :global(.active-card-right) {
-        right: calc(50% - var(--card-width) / 2);
-    }
-
-    .next-card {
+    div.front-side, div.back-side {
         position: absolute;
-        right: 3rem;
-        scale: 0.9;
-        opacity: 0.5;
-        rotate: z 5deg;
-    }
+        width:  calc(100% - var(--card-padding) * 2);
+        height: calc(100% - var(--card-padding) * 2);
 
-    :global(.hidden-left) {
-        position: absolute;
-        left: 2rem;
-        scale: 0.8;
-        opacity: 0;
-        rotate: -10deg;
-    }
-
-    .hidden-right {
-        position: absolute;
-        right: 2rem;
-        scale: 0.8;
-        opacity: 0;
-        rotate: 10deg;
-    }
-
-    .card-inside {
         display: flex;
         align-items: center;
         justify-content: center;
 
-        width: 100%;
-        height: 100%;
-        padding: 1rem;
-
-        text-align: justify;
         font-size: 1.5rem;
-                
-        color: var(--text-color);
+        text-align: center;
+
+        backface-visibility: hidden;
     }
 
-    :global(.rotate-card) {
+    div.back-side {
+        rotate: x 180deg;
+        background-color: var(--secondary-color);
+    }
+
+    :global(div.flipped) {
         rotate: x 180deg;
     }
 
-    :global(.disable-transition) {
-        transition: none !important;
+    :global(div.hide-left) {
+        rotate: y -90deg;
+    }
+
+    :global(div.hide-right) {
+        rotate: y 90deg;
+    }
+
+    :global(div.rotate-left) {
+        rotate: z 10deg;
+    }
+
+    :global(div.rotate-right) {
+        rotate: z -10deg;
     }
 </style>

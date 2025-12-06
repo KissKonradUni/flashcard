@@ -25,11 +25,18 @@ html, body {
     font-family: var(--font-family);
 }
 
+html {
+    max-height: 100vh;
+    overflow: hidden;
+}
+
 body {
     display: flex;
     flex-direction: column;
 
     min-height: 100vh;
+    max-height: 100vh;
+    overflow-y: scroll;
 }
 
 img {
@@ -71,6 +78,26 @@ button:active {
 }
 
 button:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 0.1rem;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+
+    background-color: var(--main-color);
+    border: 2px solid var(--secondary-color);
+    border-radius: 0.25rem;
+    color: var(--text-color);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
     outline: 2px solid var(--accent-color);
     outline-offset: 0.1rem;
 }

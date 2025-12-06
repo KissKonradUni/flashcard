@@ -9,11 +9,13 @@ class Card {
 }
 
 class Album {
-    public name: string;
+    public title: string = "Unnamed Album";
+    public description: string = "An album of flashcards.";
     public cards: Card[];
 
-    constructor(name: string, cards: Card[] = []) {
-        this.name = name;
+    constructor(name: string, description: string, cards: Card[] = []) {
+        this.title = name;
+        this.description = description;
         this.cards = cards;
     }
 
@@ -25,12 +27,30 @@ class Album {
     }
 
     public getNextCard(index: number): Card {
+        while (index < 0)
+            index += this.cards.length;
         index = index % this.cards.length;
         return this.cards[index];
     }
+
+    public static deserialize(data: string): Album {
+        const parsed = JSON.parse(data);
+        const title = parsed.title || "Unnamed Album";
+        const description = parsed.description || "An album of flashcards.";
+        const cards = (parsed.cards || []).map((cardData: any) => new Card(cardData.front, cardData.back));
+        return new Album(title, description, cards);
+    }
+
+    public serialize(): string {
+        const data = {
+            title: this.title,
+            cards: this.cards.map(card => ({ front: card.front, back: card.back })),
+        };
+        return JSON.stringify(data);
+    }
 }
 
-export const ExampleAlbum = new Album("Example Album", [
+export const ExampleAlbum = new Album("Example Album", "An example album.", [
     new Card("What is the capital of France?", "Paris"),
     new Card("What is 2 + 2?", "4"),
     new Card("What is the capital of Japan?", "Tokyo"),
@@ -39,4 +59,30 @@ export const ExampleAlbum = new Album("Example Album", [
     new Card("Who wrote 'Romeo and Juliet'?", "William Shakespeare"),
 ]);
 
-export { Card, Album };
+class AlbumCollection {
+    private albums: Album[];
+
+    constructor() {
+        this.albums = [];
+    }
+
+    public addAlbum(album: Album): void {
+        this.albums.push(album);
+    }
+
+    public getAllAlbums(): Album[] {
+        return this.albums;
+    }
+    
+    public getAlbum(index: number): Album | null {
+        if (index < 0 || index >= this.albums.length) {
+            return null;
+        }
+        return this.albums[index];
+    }
+}
+
+const AlbumRegistry = new AlbumCollection();
+AlbumRegistry.addAlbum(ExampleAlbum);
+
+export { Card, Album, AlbumRegistry };

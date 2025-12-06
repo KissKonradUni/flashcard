@@ -22,6 +22,9 @@
 
 <style>
     header {
+        position: sticky;
+        top: 0;
+
         display: flex;
         flex-direction: row;
         align-items: center;
