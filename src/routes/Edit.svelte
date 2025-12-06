@@ -24,7 +24,7 @@
     }
 
     function deleteAlbum() {
-        if (albumIndex >= 0) {
+        if (albumIndex >= 0 && confirm(`Are you sure you want to delete the album "${editedAlbum.title}"? This action cannot be undone.`)) {
             AlbumRegistry.deleteAlbum(albumIndex);
         }
         Navigate('/');

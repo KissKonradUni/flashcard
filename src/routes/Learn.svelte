@@ -2,7 +2,6 @@
 	import { AlbumRegistry, ExampleAlbum } from "../lib/Albums";
 	import { GetCurrentParams } from "../Router";
 	import { loadSettings, type Settings } from "../lib/Settings";
-    import 'mathjax/es5/tex-mml-chtml.js';
 	import { onMount } from "svelte";
 
     const settings = $state<Settings>(loadSettings());
@@ -23,6 +22,8 @@
 
     let cardWarpper: HTMLDivElement;
     let card: HTMLDivElement;
+    let frontSide: HTMLDivElement;
+    let backSide: HTMLDivElement;
 
     function flip() {
         card.classList.toggle('flipped');    
@@ -32,7 +33,7 @@
         // Math Jax rendering
         if (settings.enableMathJax) {
             // @ts-ignore
-            MathJax.typesetPromise([childElement, backElement]);
+            window.MathJax.typesetPromise([frontSide, backSide]).catch((err: any) => console.log('MathJax typeset failed: ' + err.message));
         }
     }
 
@@ -55,10 +56,8 @@
 
             cardIndex += amount;
 
-            const childElement = card.querySelector('.front-side') as HTMLDivElement;
-            childElement.innerHTML = album!.getNextCard(cardIndex).front;
-            const backElement = card.querySelector('.back-side') as HTMLDivElement;
-            backElement.innerHTML = album!.getNextCard(cardIndex).back;
+            frontSide.innerHTML = album!.getNextCard(cardIndex).front;
+            backSide.innerHTML = album!.getNextCard(cardIndex).back;
 
             renderMath();
         }, 300);
@@ -75,10 +74,10 @@
     </div>
     <div class="card-wrapper" bind:this={cardWarpper}>
         <div class="card" bind:this={card}>
-            <div class="front-side">
+            <div class="front-side" bind:this={frontSide}>
                 {album.getNextCard(cardIndex).front}
             </div>
-            <div class="back-side">
+            <div class="back-side" bind:this={backSide}>
                 {album.getNextCard(cardIndex).back}
             </div>
         </div>
