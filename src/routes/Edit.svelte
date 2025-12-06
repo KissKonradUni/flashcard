@@ -5,7 +5,6 @@
 
     const params = GetCurrentParams();
     const albumIndex = parseInt(params.album);
-    console.log("Editing album at index", albumIndex);
 
     const source = AlbumRegistry.getAlbum(albumIndex) || ExampleAlbum;
 
@@ -24,9 +23,15 @@
         }, 50);
     }
 
+    function deleteAlbum() {
+        if (albumIndex >= 0) {
+            AlbumRegistry.deleteAlbum(albumIndex);
+        }
+        Navigate('/');
+    }
+
     function onDelete(index: number) {
         editedAlbum.cards.splice(index, 1);
-        console.log(editedAlbum.cards);
     }
 
     function onEdit(which: 'front' | 'back', index: number, value: string) {
@@ -36,10 +41,8 @@
     function saveAlbum() {
         if (albumIndex >= 0) {
             AlbumRegistry.updateAlbum(albumIndex, editedAlbum);
-            console.log("Updated album at index", albumIndex);
         } else {
             AlbumRegistry.addAlbum(new Album(editedAlbum.title, editedAlbum.description, editedAlbum.cards));
-            console.log("Added new album");
         }
 
         Navigate('/');
@@ -59,6 +62,9 @@
     </button>
     <button onclick={() => saveAlbum()} class="save-button">
         💾
+    </button>
+    <button class="delete-button" onclick={() => deleteAlbum()}>
+        🗑️
     </button>
 </div>
 
@@ -118,6 +124,22 @@
         
         top: 4rem;
         right: 1rem;
+
+        width: 3rem;
+        height: 3rem;
+        
+        font-size: 1.5rem;
+        border-radius: 50%;
+    }
+
+    button.delete-button {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        top: 4rem;
+        right: 5rem;
 
         width: 3rem;
         height: 3rem;

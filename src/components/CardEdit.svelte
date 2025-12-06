@@ -14,8 +14,8 @@
             🗑️
         </button>
     </div>
-    <textarea class="card-front" bind:value={card.front} placeholder="Front Side" oninput={(e) => onEdit('front', index, (e.target as HTMLTextAreaElement).value)}></textarea>
-    <textarea class="card-back" bind:value={card.back} placeholder="Back Side" oninput={(e) => onEdit('back', index, (e.target as HTMLTextAreaElement).value)}></textarea>
+    <textarea class="card-front" value={card.front} placeholder="Front Side" oninput={(e) => onEdit('front', index, (e.target as HTMLTextAreaElement).value)}></textarea>
+    <textarea class="card-back" value={card.back} placeholder="Back Side" oninput={(e) => onEdit('back', index, (e.target as HTMLTextAreaElement).value)}></textarea>
 </div>
 
 <style>

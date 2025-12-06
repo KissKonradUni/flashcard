@@ -32,7 +32,7 @@
         text-align: center;
 
         background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                    url("https://picsum.photos/1920/1080") no-repeat center center;
+                    url("https://picsum.photos/2560/1080") no-repeat center center;
     }
 
     h1 {

@@ -64,10 +64,21 @@ class AlbumCollection {
 
     constructor() {
         this.albums = [];
+        this.loadFromLocalStorage();
     }
 
-    public addAlbum(album: Album): void {
-        this.albums.push(album);
+    public addAlbum(album: Album): number {
+        const id = this.albums.push(album);
+        this.saveToLocalStorage();
+        return id - 1;
+    }
+
+    public deleteAlbum(albumIndex: number) {
+        if (albumIndex < 0 || albumIndex >= this.albums.length) {
+            return;
+        }
+        this.albums.splice(albumIndex, 1);
+        this.saveToLocalStorage();
     }
 
     public getAllAlbums(): Album[] {
@@ -88,10 +99,27 @@ class AlbumCollection {
         this.albums[albumIndex].cards = editedAlbum.cards;
         this.albums[albumIndex].title = editedAlbum.title;
         this.albums[albumIndex].description = editedAlbum.description;
+
+        this.saveToLocalStorage();
+    }
+
+    private saveToLocalStorage() {
+        const serializedAlbums = this.albums.map(album => album.serialize());
+        localStorage.setItem("albums", JSON.stringify(serializedAlbums));
+    }
+
+    public loadFromLocalStorage() {
+        const data = localStorage.getItem("albums");
+        if (data) {
+            const serializedAlbums: string[] = JSON.parse(data);
+            this.albums = serializedAlbums.map(albumData => Album.deserialize(albumData));
+        } else {
+            this.albums = [];
+            this.addAlbum(ExampleAlbum);
+        }
     }
 }
 
 const AlbumRegistry = new AlbumCollection();
-AlbumRegistry.addAlbum(ExampleAlbum);
 
 export { Card, Album, AlbumRegistry };

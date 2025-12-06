@@ -1,24 +1,20 @@
 <script lang="ts">
 	import { AlbumRegistry, ExampleAlbum } from "../lib/Albums";
 	import { GetCurrentParams } from "../Router";
+	import { loadSettings, type Settings } from "../lib/Settings";
+
+    const settings = $state<Settings>(loadSettings());
 
     const params = GetCurrentParams();
-    const albumIndex = Number(params.album) || -1;
+    const albumIndex = Number(params.album);
 
-    let cardIndex = 0;
+    let cardIndex = $state(0);
     const album = AlbumRegistry.getAlbum(albumIndex) || ExampleAlbum;
-    album.shuffle();
-
-    function fillCard() {
-        if (isFront) {
-            return album.getNextCard(cardIndex).front;
-        } else {
-            return album.getNextCard(cardIndex).back;
-        }
-    }
+    
+    if (settings.shouldShuffle)
+        album!.shuffle();
 
     let animating = false;
-    let isFront = true;
 
     let cardWarpper: HTMLDivElement;
     let card: HTMLDivElement;
@@ -45,12 +41,11 @@
             animating = false;
 
             cardIndex += amount;
-            isFront = true;
 
             const childElement = card.querySelector('.front-side') as HTMLDivElement;
-            childElement.innerHTML = album.getNextCard(cardIndex).front;
+            childElement.innerHTML = album!.getNextCard(cardIndex).front;
             const backElement = card.querySelector('.back-side') as HTMLDivElement;
-            backElement.innerHTML = album.getNextCard(cardIndex).back;
+            backElement.innerHTML = album!.getNextCard(cardIndex).back;
         }, 300);
     }
 </script>
@@ -140,6 +135,9 @@
 
         font-size: 1.5rem;
         text-align: center;
+
+        white-space: pre-line;
+        line-break: normal;
 
         backface-visibility: hidden;
     }

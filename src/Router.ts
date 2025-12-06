@@ -2,6 +2,8 @@ import HomeRoute from "./routes/Home.svelte";
 import NotFoundRoute from "./routes/NotFound.svelte";
 import LearnRoute from "./routes/Learn.svelte";
 import EditRoute from "./routes/Edit.svelte";
+import AboutRoute from "./routes/About.svelte";
+import SettingsRoute from "./routes/Settings.svelte";
 
 declare const __IS_LOCAL__: boolean;
 console.log(`Running in ${__IS_LOCAL__ ? "local" : "production"} mode.`);
@@ -18,11 +20,13 @@ export interface IRoute {
 }
 
 const RouteArray = [
-    { href: "/"        , component: HomeRoute, title: "Home" },
-    { href: "/404"     , component: NotFoundRoute, title: "404" },
+    { href: "/"        , component: HomeRoute,     title: "Home"     },
+    { href: "/404"     , component: NotFoundRoute, title: "404"      },
 
-    { href: "/learn"   , component: LearnRoute, title: "Learn" },
-    { href: "/edit"    , component: EditRoute, title: "Edit" },
+    { href: "/learn"   , component: LearnRoute,    title: "Learn"    },
+    { href: "/edit"    , component: EditRoute,     title: "Edit"     },
+    { href: "/about"   , component: AboutRoute,    title: "About"    },
+    { href: "/settings", component: SettingsRoute, title: "Settings" },
 ];
 
 export const Routes: Record<string, IRoute> = RouteArray.reduce(

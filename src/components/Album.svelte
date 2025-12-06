@@ -24,7 +24,7 @@
             </button>
         </div>
     </div>
-    <img src="https://picsum.photos/seed/{index}/200/200" alt="Album Cover" class="card-album-cover" />
+    <img src="https://picsum.photos/seed/{index + 1}/200/200" alt="Album Cover" class="card-album-cover" />
 </div>
 
 <style>
@@ -93,7 +93,7 @@ img.card-album-cover {
     display: block;
     position: relative;
 
-    width: 12rem;
+    width: 6rem;
     height: 12rem;
     object-fit: cover;
 
