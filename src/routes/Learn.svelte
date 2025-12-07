@@ -29,14 +29,6 @@
         card.classList.toggle('flipped');    
     }
 
-    function renderMath() {
-        // Math Jax rendering
-        if (settings.enableMathJax) {
-            // @ts-ignore
-            window.MathJax.typesetPromise([frontSide, backSide]).catch((err: any) => console.log('MathJax typeset failed: ' + err.message));
-        }
-    }
-
     function go(amount: number) {
         if (card.classList.contains('flipped')) {
             flip();
@@ -59,14 +51,20 @@
             frontSide.innerHTML = album!.getNextCard(cardIndex).front;
             backSide.innerHTML = album!.getNextCard(cardIndex).back;
 
-            renderMath();
+            // @ts-ignore
+            window.MathJax.typesetPromise([frontSide, backSide]);
         }, 300);
     }
 
-    onMount(() => {
-        renderMath();
-    });
+    // @ts-ignore
+    window.MathJax = {
+        tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}
+    };
 </script>
+
+<svelte:head>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</svelte:head>
 
 <div class="learn">
     <div class="numbering">

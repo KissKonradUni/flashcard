@@ -1,16 +1,22 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@deno/vite-plugin@^1.0.5": "1.0.5_vite@6.4.1__@types+node@24.10.1__picomatch@4.0.3_@types+node@24.10.1",
     "npm:@sveltejs/vite-plugin-svelte@^6.2.1": "6.2.1_svelte@5.45.5__acorn@8.15.0_vite@7.2.6__@types+node@24.10.1__picomatch@4.0.3_@types+node@24.10.1",
     "npm:@tsconfig/svelte@^5.0.6": "5.0.6",
     "npm:@types/node@^24.10.1": "24.10.1",
-    "npm:mathjax@4": "4.0.0",
     "npm:rolldown-vite@7.2.5": "7.2.5_@types+node@24.10.1_picomatch@4.0.3",
     "npm:svelte-check@^4.3.4": "4.3.4_svelte@5.45.5__acorn@8.15.0_typescript@5.9.3",
     "npm:svelte@^5.43.8": "5.45.5_acorn@8.15.0",
     "npm:typescript@~5.9.3": "5.9.3"
   },
   "npm": {
+    "@deno/vite-plugin@1.0.5_vite@6.4.1__@types+node@24.10.1__picomatch@4.0.3_@types+node@24.10.1": {
+      "integrity": "sha512-tLja5n4dyMhcze1NzvSs2iiriBymfBlDCZIrjMTxb9O2ru0gvmV6mn5oBD2teNw5Sd92cj3YJzKwsAs8tMJXlg==",
+      "dependencies": [
+        "vite@6.4.1_@types+node@24.10.1_picomatch@4.0.3"
+      ]
+    },
     "@emnapi/core@1.7.1": {
       "integrity": "sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==",
       "dependencies": [
@@ -186,9 +192,6 @@
         "@jridgewell/resolve-uri",
         "@jridgewell/sourcemap-codec"
       ]
-    },
-    "@mathjax/mathjax-newcm-font@4.0.0": {
-      "integrity": "sha512-kpsJgIF4FpWiwIkFgOPmWwy5GXfL25spmJJNg27HQxPddmEL8Blx0jn2BuU/nlwjM/9SnYpEfDrWiAMgLPlB8Q=="
     },
     "@napi-rs/wasm-runtime@1.1.0": {
       "integrity": "sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA==",
@@ -401,7 +404,7 @@
         "@sveltejs/vite-plugin-svelte",
         "debug",
         "svelte",
-        "vite"
+        "vite@7.2.6_@types+node@24.10.1_picomatch@4.0.3"
       ]
     },
     "@sveltejs/vite-plugin-svelte@6.2.1_svelte@5.45.5__acorn@8.15.0_vite@7.2.6__@types+node@24.10.1__picomatch@4.0.3_@types+node@24.10.1": {
@@ -412,7 +415,7 @@
         "deepmerge",
         "magic-string",
         "svelte",
-        "vite",
+        "vite@7.2.6_@types+node@24.10.1_picomatch@4.0.3",
         "vitefu"
       ]
     },
@@ -613,12 +616,6 @@
         "@jridgewell/sourcemap-codec"
       ]
     },
-    "mathjax@4.0.0": {
-      "integrity": "sha512-ThMPHiPl9ibZBInAmfoTCNq9MgCdH7ChIQ9YhKFc325noJ4DMzy9/Q14qdcuPzVJjEmC3kyXhwnERZWX3hbWzQ==",
-      "dependencies": [
-        "@mathjax/mathjax-newcm-font"
-      ]
-    },
     "mri@1.2.0": {
       "integrity": "sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA=="
     },
@@ -781,6 +778,25 @@
     "undici-types@7.16.0": {
       "integrity": "sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw=="
     },
+    "vite@6.4.1_@types+node@24.10.1_picomatch@4.0.3": {
+      "integrity": "sha512-+Oxm7q9hDoLMyJOYfUYBuHQo+dkAloi33apOPP56pzj+vsdJDzr+j1NISE5pyaAuKL4A3UD34qd0lx5+kfKp2g==",
+      "dependencies": [
+        "@types/node",
+        "esbuild",
+        "fdir",
+        "picomatch",
+        "postcss",
+        "rollup",
+        "tinyglobby"
+      ],
+      "optionalDependencies": [
+        "fsevents"
+      ],
+      "optionalPeers": [
+        "@types/node"
+      ],
+      "bin": true
+    },
     "vite@7.2.6_@types+node@24.10.1_picomatch@4.0.3": {
       "integrity": "sha512-tI2l/nFHC5rLh7+5+o7QjKjSR04ivXDF4jcgV0f/bTQ+OJiITy5S6gaynVsEM+7RqzufMnVbIon6Sr5x1SDYaQ==",
       "dependencies": [
@@ -803,10 +819,10 @@
     "vitefu@1.1.1_vite@7.2.6__@types+node@24.10.1__picomatch@4.0.3_@types+node@24.10.1": {
       "integrity": "sha512-B/Fegf3i8zh0yFbpzZ21amWzHmuNlLlmJT6n7bu5e+pCHUKQIfXSYokrqOBGEMMe9UG2sostKQF9mml/vYaWJQ==",
       "dependencies": [
-        "vite"
+        "vite@7.2.6_@types+node@24.10.1_picomatch@4.0.3"
       ],
       "optionalPeers": [
-        "vite"
+        "vite@7.2.6_@types+node@24.10.1_picomatch@4.0.3"
       ]
     },
     "zimmerframe@1.1.4": {
@@ -816,10 +832,10 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@deno/vite-plugin@^1.0.5",
         "npm:@sveltejs/vite-plugin-svelte@^6.2.1",
         "npm:@tsconfig/svelte@^5.0.6",
         "npm:@types/node@^24.10.1",
-        "npm:mathjax@4",
         "npm:rolldown-vite@7.2.5",
         "npm:svelte-check@^4.3.4",
         "npm:svelte@^5.43.8",
